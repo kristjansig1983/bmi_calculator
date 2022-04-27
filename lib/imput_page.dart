@@ -1,4 +1,7 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'icon_content.dart';
+import 'reusable_card.dart';
 
 const bottomContainerHeight = 80.0;
 //color for the 5 containers
@@ -25,12 +28,20 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: ReusableCard(
-                    colour:primaryContainersColor,
+                    colour: primaryContainersColor,
+                    cardChild: IconContent(
+                      icon: FontAwesomeIcons.mars,
+                      label: 'MALE',
+                    ),
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
                     colour: primaryContainersColor,
+                    cardChild: IconContent(
+                      icon: FontAwesomeIcons.venus,
+                      label: 'FEMALE',
+                    ),
                   ),
                 ),
               ],
@@ -39,6 +50,7 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: ReusableCard(
               colour: primaryContainersColor,
+              cardChild: Column(),
             ),
           ),
           Expanded(
@@ -47,42 +59,30 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReusableCard(
                     colour: primaryContainersColor,
+                    cardChild: Column(),
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
                     colour: primaryContainersColor,
+                    cardChild: Column(),
                   ),
                 ),
               ],
             ),
           ),
-        Container(
-          color: bottomContainerColor,
-          margin: EdgeInsets.only(top: 10.0),
-          width: double.infinity,
-          height: bottomContainerHeight ,
-        )
+          Container(
+            color: bottomContainerColor,
+            margin: EdgeInsets.only(top: 10.0),
+            width: double.infinity,
+            height: bottomContainerHeight,
+          )
         ],
       ),
     );
   }
 }
 
-class ReusableCard extends StatelessWidget {
-//Used to change color on column when in use
-   ReusableCard({required this.colour});
 
-  final Color colour;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(15.00),
-      decoration: BoxDecoration(
-        color: colour,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    );
-  }
-}
+
