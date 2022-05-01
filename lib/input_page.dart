@@ -1,9 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'icon_content.dart';
 import 'reusable_card.dart';
 import 'constants.dart';
+import 'results_page.dart';
+import 'bottom_button.dart';
+import 'round_icon_button.dart';
+import 'calculator_brain.dart';
+
 
 enum Gender {
   male,
@@ -20,6 +24,7 @@ class _InputPageState extends State<InputPage> {
   Gender? selectedGender;
   int height = 180;
   int weight = 60;
+  int age = 19;
 
   @override
   Widget build(BuildContext context) {
@@ -108,8 +113,10 @@ class _InputPageState extends State<InputPage> {
                         //SliderTheme to change the look of slider to what I want
                         SliderTheme(
                           data: SliderTheme.of(context).copyWith(
-                            thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
-                            overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                            overlayShape:
+                                RoundSliderOverlayShape(overlayRadius: 30.0),
                             thumbColor: Color(0xFFEB1555),
                             activeTrackColor: Colors.white,
                             //Replace FF to change the overlay color to a more faded shade
@@ -149,20 +156,30 @@ class _InputPageState extends State<InputPage> {
                           style: kLabelTextStyle,
                         ),
                         Text(
-                            weight.toString(),
+                          weight.toString(),
                           style: kNumberTextStyle,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            RoundIconButton(),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  weight--;
+                                });
+                              },
+                            ),
                             SizedBox(
                               width: 10.0,
                             ),
-                            FloatingActionButton(
-                              onPressed: (){},
-                              backgroundColor: Color(0xFF4C4F5E),
-                              child: Icon(Icons.add, color: Colors.white,),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  weight++;
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -174,32 +191,73 @@ class _InputPageState extends State<InputPage> {
                   child: ReusableCard(
                     onPress: () {},
                     colour: kActiveCardColor,
-                    cardChild: Column(),
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    age--;
+                                  },
+                                );
+                              },
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            RoundIconButton(
+                                icon: FontAwesomeIcons.plus,
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      age++;
+                                    },
+                                  );
+                                }),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            color: kBottomContainerColor,
-            margin: EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: kBottomContainerHeight,
-          )
+          BottonmButton(
+            buttonTitle: 'CALCULATE',
+            onTap: () {
+              CalculatorBrain calc =
+              CalculatorBrain(height: height, weight: weight);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResultsPage(
+                    bmiResult: calc.calculateBMI(),
+                    resultText: calc.getResult(),
+                    interpretation: calc.getInterpretation(),
+                  ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
   }
 }
 
-class RoundIconButton extends StatelessWidget {
-  const RoundIconButton({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(onPressed: (){},
-    shape: CircleBorder(),
-    fillColor: Color(0xFF4C4F5E),);
-  }
-}
 
